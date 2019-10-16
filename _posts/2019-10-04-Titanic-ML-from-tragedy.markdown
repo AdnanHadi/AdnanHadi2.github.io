@@ -45,14 +45,17 @@ The first feature **survivial** is actually our output value or label. The other
 Using the Matplotlib library we can plot how different features are correlated with the Survival rate.
 
 ![Survivor Plots](/assets/img/Survivor_charts.JPG)
+
 These plots are telling us several things. Firstly, the survival rate was very low - around 35%. The second plot shows the age distribution vs the survival rate. The distributions shows that the ages between 60-80 had lower survival rates. This chart is made with the scatter plot in matplotlib and setting the alpha to a low value to get the translucency effect.
 {% highlight ruby %}
 plt.subplot2grid((2,3), (0,1))
 plt.scatter(x=titanic_df.Survived, y=titanic_df.Age, alpha=0.1)
 plt.title("Survivor Vs Age")
 {% endhighlight %}
+<center><h4><i>55% travelled in 3rd Class</i></h4></center>
 
 From the Class Percentage chart we clearly see that the majority population was travelling in 3rd class and mostly embarked from Southampton. The KDE or Kernel Density Estimate plot is particularly useful to view the distribution of one feature with the other. In this case we can see that most 3rd class passengers were young and most 1st class passengers were in the mid 30's.
+
 The code for KDE is as follows:
 
 {% highlight ruby %}
@@ -64,27 +67,43 @@ plt.title("Class/Age Kernel Density Estimate")
 plt.legend(("1st","2nd","3rd"))
 {% endhighlight %}
 
-You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run `jekyll serve`, which launches a web server and auto-regenerates your site when a file is updated.
+It is also interesting to see how the survivor rate differed with gender. Similar to the above plots we can generate survivor vs gender plots as shown below:
+![Gender Plots](/assets/img/Gender_charts.JPG)
 
-Jekyll requires blog post files to be named according to the following format:
+The plots show that `60%` of the passengers were Male and only `25%` of them survived. Whereas `40%` of the passengers that are female, `70%` survived. 
 
-`YEAR-MONTH-DAY-title.MARKUP`
-
-Where `YEAR` is a four-digit number, `MONTH` and `DAY` are both two-digit numbers, and `MARKUP` is the file extension representing the format used in the file. After that, include the necessary front matter. Take a look at the source for this post to get an idea about how it works.
-
-Jekyll also offers powerful support for code snippets:
-
+The Female Survivor % can be plotted with a bar chart as follows:
 {% highlight ruby %}
-def print_hi(name)
-  puts "Hi, #{name}"
-end
-print_hi('Tom')
-#=> prints 'Hi, Tom' to STDOUT.
+# Female survivors
+plt.subplot2grid((3,3),(1,1))
+titanic_df.Survived[titanic_df.Sex=="female"].value_counts(normalize=True).sort_index().plot(kind="bar",alpha=0.5, color=female_col)
+plt.title('Female Survivor %')
 {% endhighlight %}
 
-Check out the [Jekyll docs][jekyll-docs] for more info on how to get the most out of Jekyll. File all bugs/feature requests at [Jekyll’s GitHub repo][jekyll-gh]. If you have questions, you can ask them on [Jekyll Talk][jekyll-talk].
+<center><h4><i>70% of the Female Survived</i></h4></center>
 
-[jekyll-docs]: https://jekyllrb.com/docs/home
-[jekyll-gh]:   https://github.com/jekyll/jekyll
-[jekyll-talk]: https://talk.jekyllrb.com/
+Once again we plotted the KDE, this time to see the relation between survival and class. We can see that majority of the deceased were from 3rd Class and conversely majority of the survivors were from 1st Class.
+
+We can also use `Matplotlib` to plot a pie-chart of the Survivors by Class.
+
+{% highlight ruby %}
+# Data to plot
+labels = '2', '1', '3'
+total = titanic_surv['Pclass'].count()
+surv_class = titanic_surv.groupby('Pclass')['Pclass'].count()
+sizes = [surv_class[2], surv_class[1], surv_class[3]]
+colors = ['gold', 'yellowgreen', 'lightcoral']
+explode = (0.01, 0.1, 0.01)  # explode 1st slice
+
+# Plot
+plt.pie(sizes, explode=explode, labels=labels, colors=colors,
+autopct='%1.1f%%', shadow=True, startangle=140)
+plt.title('Titanic Survivors by Ticket Class')
+plt.axis('equal')
+plt.show()
+{% endhighlight %}
+
+![Survivor Pie](/assets/img/Survivor_pie.JPG)
+
+
 [Kaggle]: https://www.kaggle.com/c/titanic
