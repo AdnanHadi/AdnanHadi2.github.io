@@ -44,7 +44,7 @@ The first feature **survivial** is actually our output value or label. The other
 # Data Visualization
 Using the Matplotlib library we can plot how different features are correlated with the Survival rate.
 
-![Survivor Plots](/assets/img/Survivor_charts.jpg)
+![Survivor Plots](/assets/img/Survivor_charts.JPG)
 These plots are telling us several things. Firstly, the survival rate was very low - around 35%. The second plot shows the age distribution vs the survival rate. The distributions shows that the ages between 60-80 had lower survival rates. This chart is made with the scatter plot in matplotlib and setting the alpha to a low value to get the translucency effect.
 {% highlight ruby %}
 plt.subplot2grid((2,3), (0,1))
