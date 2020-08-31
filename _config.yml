@@ -18,7 +18,7 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: Adnan Hadi blog
+title: Adnan Hadi Portfolio
 email: adnanthadi@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
   Explore how Data Science is changing the world around us. We will cover Data Exploration, Data Visualization,
